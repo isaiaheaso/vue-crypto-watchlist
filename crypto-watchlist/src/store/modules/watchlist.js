@@ -28,7 +28,7 @@ export default {
     actions: {
         getWatchlist(context) {
             axios
-              .get("http://localhost:8000/watchlist")
+              .get("watchlist")
               .then((res) => {
                 console.log(res);
                 context.commit('setWatchlist', res.data);
@@ -37,7 +37,7 @@ export default {
         },
         setCoinToWatchlist(context, data) {
             axios
-              .post("http://localhost:8000/watchlist", data)
+              .post("watchlist", data)
               .then((res) => {
                 console.log(res);
                 if (res.status === 200)
@@ -46,7 +46,7 @@ export default {
               .catch(console.error);
         },
         removeFromWatchlist(context, name) {
-            axios.delete("http://localhost:8000/watchlist", {params: {name: name}})
+            axios.delete("watchlist", {params: {name: name}})
               .then((res) => {
                 console.log(res);
                 if (res.status === 200)
