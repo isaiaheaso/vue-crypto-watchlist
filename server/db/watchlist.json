@@ -1,0 +1,26 @@
+[
+    {
+        "_id": "bitcoin",
+        "name": "bitcoin",
+        "symbol": "BTC",
+        "image": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579"
+    },
+    {
+        "_id": "ethereum",
+        "name": "ethereum",
+        "symbol": "ETH",
+        "image": "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880"
+    },
+    {
+        "_id": "dogecoin",
+        "name": "dogecoin",
+        "symbol": "DOGE",
+        "image": "https://assets.coingecko.com/coins/images/5/small/dogecoin.png?1547792256"
+    },
+    {
+        "_id": "ripple",
+        "name": "ripple",
+        "symbol": "XRP",
+        "image": "https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png?1605778731"
+    }
+]
