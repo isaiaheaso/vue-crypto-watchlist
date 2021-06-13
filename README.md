@@ -15,6 +15,16 @@ cd crypto-watchlist
 npm run serve
 ```
 
+## Instructions for accessing the application via the web
+Visit https://crypto.easo.io/
+
+## How to use the app
+This free-to-use crypto watchlist will help you track and learn more about virtually any cryptocurrency.
+
+To use it, simply search for any cryptocurrency on the homepage, and if you would like to start tracking it, click "Add to watchlist." Removing a cryptocurrency from your watchlist is as easy as clicking the red delete button.
+
+If you would like to learn more about any particular cryptocurrency from your watchlist, click on the coin name (i.e. Bitcoin).
+
 ## Part 1 (Due May 3rd)
 
 - ~~Go to the Final project page and accept in.~~
