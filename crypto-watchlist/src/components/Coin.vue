@@ -54,7 +54,7 @@ export default {
         });
     },
     upperCaseCoinName() {
-      return this.name.charAt(0).toUpperCase() + this.name.slice(1);
+      return String(this.name).charAt(0).toUpperCase() + this.name.slice(1);
     },
     removeFromWatchlist(name) {
       this.$store.dispatch('removeFromWatchlist', name);
