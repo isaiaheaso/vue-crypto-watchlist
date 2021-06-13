@@ -7,11 +7,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Symbol</th>
-            <th scope="col">Price ($USD)</th>
-            <th scope="col">% Change (24 hours)</th>
+            <th class="priority-1" scope="col">Image</th>
+            <th class="priority-2" scope="col">Name</th>
+            <th class="priority-3" scope="col">Symbol</th>
+            <th class="priority-4" scope="col">Price ($USD)</th>
+            <th class="priority-5" scope="col">% Change (24 hours)</th>
             <th></th>
           </tr>
         </thead>
@@ -59,5 +59,47 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;  
+}
+@media screen and (max-width: 1225px) and (min-width: 1045px) {
+  .priority-5{
+    display:none;
+  }
+}
+
+@media screen and (max-width: 1045px) and (min-width: 835px) {
+  .priority-5{
+    display:none;
+  }
+  .priority-4{
+    display:none;
+  }
+}
+
+@media screen and (max-width: 565px) and (min-width: 300px) {
+  .priority-5{
+    display:none;
+  }
+  .priority-4{
+    display:none;
+  }
+  .priority-3{
+    display:none;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .priority-5{
+    display:none;
+  }
+  .priority-4{
+    display:none;
+  }
+  .priority-3{
+    display:none;
+  }
+  .priority-2{
+    display:none;
+  }
+
 }
 </style>

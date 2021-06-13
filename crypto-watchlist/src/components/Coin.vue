@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td scope="row">
+    <td class="priority-1" scope="row">
       <img class="thumbnail" :src="image" />
     </td>
-    <td><router-link :to="'/detailed/' + name">{{ upperCaseCoinName() }}</router-link></td>
-    <td>{{ symbol }}</td>
-    <td>{{ price }}</td>
+    <td class="priority-2"><router-link :to="'/detailed/' + name">{{ upperCaseCoinName() }}</router-link></td>
+    <td class="priority-3">{{ symbol }}</td>
+    <td class="priority-4">{{ price }}</td>
     <td :class="percentChangeClass">{{ percentChange }}</td>
     <td><button type="button" class="btn btn-danger" @click="removeFromWatchlist(name)"><span>&times;</span></button></td>
   </tr>
@@ -44,9 +44,9 @@ export default {
           this.percentChange =
             (resp.data.market_data.price_change_percentage_24h).toFixed(2) + "%";
           if (resp.data.market_data.price_change_percentage_24h >= 0) {
-            this.percentChangeClass = "pos";
+            this.percentChangeClass = "priority-5 pos";
           } else {
-            this.percentChangeClass = "neg";
+            this.percentChangeClass = "priority-5 neg";
           }
         })
         .catch(() => {
