@@ -31,7 +31,8 @@ export default {
             state.coin.symbol = resp.data.symbol.toUpperCase();
             state.coin.image = resp.data.image.small;
             // Update Card Data
-            state.searchResultName = "Result: " + state.coin.name;
+            state.searchResultName = "Result: " + 
+                state.coin.name.charAt(0).toUpperCase() + state.coin.name.slice(1);
             state.searchResultPrice =
                 "Price: $" + resp.data.market_data.current_price.usd.toFixed(2);
             state.searchResultPercentChange =
@@ -42,7 +43,9 @@ export default {
                 state.searchResultPercentChangeClass = "pos";
             } else {
                 state.searchResultPercentChangeClass = "neg";
-            }  
+            
+            }
+            state.searchQuery = "";  
             state.searchQueryStatus = 0;
         },
         setStatusToLoading(state) {
