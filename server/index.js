@@ -14,6 +14,7 @@ const client = new MongoClient(uri);
 app.use(express.json());
 app.use(cors({
   origin: [
+    'https://crypto.easo.io',
     'https://vue-crypto-watchlist-rho.vercel.app',
     'https://vue-crypto-watchlist-d3co0gy9u-isaiah-easos-projects.vercel.app',
     'http://localhost:8080'
