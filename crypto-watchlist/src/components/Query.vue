@@ -86,7 +86,13 @@ export default {
     addWatchlist() {
       const currentCoinIds = this.watchlist.map(coin => coin._id);
       if (this.coin._id && currentCoinIds.indexOf(this.coin._id) < 0) {
-        this.$store.dispatch('setCoinToWatchlist', this.coin);
+        const coinData = {
+          id: this.coin._id,
+          name: this.coin.name,
+          symbol: this.coin.symbol,
+          image: this.coin.image
+        };
+        this.$store.dispatch('setCoinToWatchlist', coinData);
       }
     }
   },

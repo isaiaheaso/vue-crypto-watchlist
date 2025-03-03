@@ -40,8 +40,9 @@ export default {
               .post("/watchlist", data)
               .then((res) => {
                 console.log(res);
-                if (res.status === 200)
-                    context.commit('setWatchlist', res.data);
+                if (res.status === 201) {
+                    context.dispatch('getWatchlist');
+                }
               })
               .catch(console.error);
         },
