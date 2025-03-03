@@ -52,7 +52,7 @@ export default {
             this.percentChangeClass = "priority-5 neg";
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.price = "Error";
           this.percentChange = "N/A";
         });
