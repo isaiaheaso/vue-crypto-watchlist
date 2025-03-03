@@ -84,7 +84,6 @@ export default {
       this.$store.dispatch('lowerCaseQuery');
     },
     addWatchlist() {
-      // Make sure watchlist is an array
       const watchlistArray = Array.isArray(this.watchlist) ? this.watchlist : [];
       const currentCoinIds = watchlistArray.map(coin => coin._id);
       

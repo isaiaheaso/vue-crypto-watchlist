@@ -20,6 +20,7 @@ export default {
     image: String,
     name: String,
     symbol: String,
+    _id: String,
   },
 
   data() {
@@ -31,7 +32,9 @@ export default {
   },
 
   mounted() {
-    this.getPrice();
+    if (this.name) {  // Check for name instead of _id
+      this.getPrice();
+    }
   },
   methods: {
     getPrice() {
@@ -49,15 +52,17 @@ export default {
             this.percentChangeClass = "priority-5 neg";
           }
         })
-        .catch(() => {
-          console.error();
+        .catch((error) => {
+          console.error('Error fetching price:', error);
+          this.price = "Error";
+          this.percentChange = "N/A";
         });
     },
     upperCaseCoinName() {
       return String(this.name).charAt(0).toUpperCase() + this.name.slice(1);
     },
     removeFromWatchlist(name) {
-      this.$store.dispatch('removeFromWatchlist', name);
+      this.$store.dispatch('removeFromWatchlist', this._id);
     }
   },
 };
