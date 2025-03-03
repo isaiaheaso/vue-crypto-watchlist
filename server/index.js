@@ -13,7 +13,13 @@ const client = new MongoClient(uri);
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:8080'
+  origin: [
+    'https://vue-crypto-watchlist-rho.vercel.app',
+    'https://vue-crypto-watchlist-d3co0gy9u-isaiah-easos-projects.vercel.app',
+    'http://localhost:8080'
+  ],
+  methods: ['GET', 'POST', 'DELETE'],
+  credentials: true
 }));
 
 // Connect to MongoDB
