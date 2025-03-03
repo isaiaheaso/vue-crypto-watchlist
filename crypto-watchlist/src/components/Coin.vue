@@ -7,7 +7,7 @@
     <td class="priority-3">{{ symbol }}</td>
     <td class="priority-4">{{ price }}</td>
     <td :class="percentChangeClass">{{ percentChange }}</td>
-    <td><button type="button" class="btn btn-danger" @click="removeFromWatchlist(name)"><span>&times;</span></button></td>
+    <td><button type="button" class="btn btn-danger" @click="removeFromWatchlist"><span>&times;</span></button></td>
   </tr>
 </template>
 
@@ -53,7 +53,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.error('Error fetching price:', error);
           this.price = "Error";
           this.percentChange = "N/A";
         });
@@ -61,7 +60,7 @@ export default {
     upperCaseCoinName() {
       return String(this.name).charAt(0).toUpperCase() + this.name.slice(1);
     },
-    removeFromWatchlist(name) {
+    removeFromWatchlist() {
       this.$store.dispatch('removeFromWatchlist', this._id);
     }
   },
