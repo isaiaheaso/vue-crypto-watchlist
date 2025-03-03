@@ -1,68 +1,82 @@
-let express = require('express');
-let bodyParser = require('body-parser');
-let fs = require('fs');
+const express = require('express');
+const cors = require('cors');
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-let watchlist = require('./db/watchlist.json');
+const app = express();
+const port = process.env.PORT || 10000;
 
-const PORT = 8000;
-let app = express();
+// MongoDB connection string
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri);
 
-app.use(bodyParser.json());
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:8080'
+}));
 
-// Start server
-app.use((req, res, next) => {
-    // Website you wish to allow to connect
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// Connect to MongoDB
+async function connectDB() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+}
 
-    // Pass to next layer of middleware
-    next();
+connectDB();
+
+const db = client.db('crypto-watchlist');
+const watchlist = db.collection('watchlist');
+
+// Routes
+app.get('/watchlist', async (req, res) => {
+  try {
+    const coins = await watchlist.find({}).toArray();
+    res.json(coins);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.use(express.static('assets'));
+app.post('/watchlist', async (req, res) => {
+  try {
+    const coin = {
+      _id: req.body.id,
+      name: req.body.name,
+      symbol: req.body.symbol,
+      image: req.body.image
+    };
+    await watchlist.insertOne(coin);
+    res.status(201).json(coin);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-app.get('/', (req, resp) => {
-    resp.json('watchlist');
-})
+app.delete('/watchlist/:id', async (req, res) => {
+  try {
+    await watchlist.deleteOne({ _id: req.params.id });
+    res.status(200).json({ message: 'Coin removed from watchlist' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-app.get('/watchlist', (req, resp) => {
-    resp.json(watchlist);
-})
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something broke!' });
+});
 
-app.get('/watchlist/:id', (req, resp) => {
-    if(isNaN(req.params.id) || req.params.id>watchlist.length) {
-        resp.json('Invalid id!');
-    }
-    resp.json(watchlist[req.params.id]);
-})
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
-app.post('/watchlist', (req, resp) => {
-    let tempList = watchlist.slice();
-    const currentCoinIds = watchlist.map(coin => coin._id);
-    if(!req.body._id || currentCoinIds.indexOf(req.body._id) > 0)
-        return resp.status(400).json('Invalid request!');
-    tempList.push(req.body);
-    fs.writeFile('./db/watchlist.json', JSON.stringify(tempList), {space: 2}, (err, data) => {
-        if (err) return resp.json(watchlist);
-        watchlist.push(req.body);
-        resp.json(watchlist);
-    });
-})
-
-app.delete('/watchlist', (req, resp) => {
-    let tempList = watchlist.slice();
-    const currentCoinNames = watchlist.map(coin => coin.name);
-    if(!req.query.name || currentCoinNames.indexOf(req.query.name) < 0)
-        return resp.status(400).json('Invalid request!');
-    tempList = tempList.filter(coin => coin.name !== req.query.name)
-    fs.writeFile('./db/watchlist.json', JSON.stringify(tempList), {space: 2}, (err, data) => {
-        if (err) return resp.json(watchlist);
-        watchlist = tempList.slice();
-        resp.json(watchlist);
-    });
-})
-
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  await client.close();
+  process.exit();
 });
