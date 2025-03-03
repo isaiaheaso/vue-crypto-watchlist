@@ -1,14 +1,24 @@
 <template>
 <div class="container">
   <div class="detailed">
-    <div class="header">
-      <img style="display: inline; vertical-align: middle;" :src="imageSmall" />
-      <h1 style="display: inline; vertical-align: middle;">{{ name }}</h1>
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
+    <div v-else-if="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div v-else>
+      <div class="header">
+        <img style="display: inline; vertical-align: middle;" :src="imageSmall" />
+        <h1 style="display: inline; vertical-align: middle;">{{ name }}</h1>
+      </div>
       
       <br>
       <MonthlyPriceChart
         :coinId="id"
+        :key="chartKey"
       ></MonthlyPriceChart>
 <h3>Market Data</h3>
     <table class="table">
@@ -63,6 +73,7 @@
                     </div>
               </div>
           </div>
+    </div>
   </div>
 </div>
 </template>
@@ -81,6 +92,9 @@ export default {
 
   data() {
     return {
+      loading: true,
+      error: null,
+      chartKey: 0,
       id: this.$route.params.id,
       name: "Loading...",
       symbol: "",
@@ -103,6 +117,9 @@ export default {
   },
   methods: {
     getData() {
+      this.loading = true;
+      this.error = null;
+      
       axios({
         method: "GET",
         url: `https://api.coingecko.com/api/v3/coins/${this.id}`,
@@ -122,10 +139,13 @@ export default {
           this.priceChange7dClass = (resp.data.market_data.price_change_percentage_7d >= 0) ? "pos" : "neg";
           this.marketCap = "$" + resp.data.market_data.market_cap.usd;
           this.description = (resp.data.description.en).replace(/\\"/g, "");
+          this.loading = false;
         })
-        .catch(() => {
-          console.error();
-        })
+        .catch((error) => {
+          this.error = "Failed to load coin data. Please try again later.";
+          this.loading = false;
+          console.error('Error:', error);
+        });
     },
   }
 };
