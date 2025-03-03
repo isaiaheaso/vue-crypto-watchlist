@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from '../api/axios';
 
 export default {    
     state: {
@@ -27,8 +27,8 @@ export default {
 
     actions: {
         getWatchlist(context) {
-            axios
-              .get("watchlist")
+            api
+              .get("/watchlist")
               .then((res) => {
                 console.log(res);
                 context.commit('setWatchlist', res.data);
@@ -36,8 +36,8 @@ export default {
               .catch(console.error);
         },
         setCoinToWatchlist(context, data) {
-            axios
-              .post("watchlist", data)
+            api
+              .post("/watchlist", data)
               .then((res) => {
                 console.log(res);
                 if (res.status === 200)
@@ -45,12 +45,15 @@ export default {
               })
               .catch(console.error);
         },
-        removeFromWatchlist(context, name) {
-            axios.delete("watchlist", {params: {name: name}})
+        removeFromWatchlist(context, id) {
+            api
+              .delete(`/watchlist/${id}`)
               .then((res) => {
                 console.log(res);
-                if (res.status === 200)
-                  context.commit('setWatchlist', res.data);
+                if (res.status === 200) {
+                  // Refresh the watchlist after successful deletion
+                  context.dispatch('getWatchlist');
+                }
               })
               .catch(console.error);
         }
