@@ -18,10 +18,10 @@ export default {
 
     getters: {
         hasWatchlist: state => {
-            return state.watchlist.length > 0
+            return Array.isArray(state.watchlist) && state.watchlist.length > 0
         },
         watchlist: state => {
-            return state.watchlist
+            return state.watchlist || []
         }
     },
 
@@ -36,18 +36,15 @@ export default {
               .catch(console.error);
         },
         setCoinToWatchlist(context, data) {
-            console.log('Making POST request with data:', data);
             api
               .post("/watchlist", data)
               .then((res) => {
-                console.log('POST response:', res);
+                console.log(res);
                 if (res.status === 201) {
                     context.dispatch('getWatchlist');
                 }
               })
-              .catch((error) => {
-                console.error('POST error:', error);
-              });
+              .catch(console.error);
         },
         removeFromWatchlist(context, id) {
             api

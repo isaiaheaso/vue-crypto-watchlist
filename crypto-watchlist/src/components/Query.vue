@@ -84,15 +84,17 @@ export default {
       this.$store.dispatch('lowerCaseQuery');
     },
     addWatchlist() {
-      const currentCoinIds = this.watchlist.map(coin => coin._id);
-      if (this.coin._id && currentCoinIds.indexOf(this.coin._id) < 0) {
+      // Make sure watchlist is an array
+      const watchlistArray = Array.isArray(this.watchlist) ? this.watchlist : [];
+      const currentCoinIds = watchlistArray.map(coin => coin._id);
+      
+      if (this.coin && this.coin._id && currentCoinIds.indexOf(this.coin._id) < 0) {
         const coinData = {
           id: this.coin._id,
           name: this.coin.name,
           symbol: this.coin.symbol,
           image: this.coin.image
         };
-        console.log('Attempting to add coin:', coinData);
         this.$store.dispatch('setCoinToWatchlist', coinData);
       }
     }
