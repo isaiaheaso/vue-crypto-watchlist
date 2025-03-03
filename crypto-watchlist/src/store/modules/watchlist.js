@@ -36,15 +36,18 @@ export default {
               .catch(console.error);
         },
         setCoinToWatchlist(context, data) {
+            console.log('Making POST request with data:', data);
             api
               .post("/watchlist", data)
               .then((res) => {
-                console.log(res);
+                console.log('POST response:', res);
                 if (res.status === 201) {
                     context.dispatch('getWatchlist');
                 }
               })
-              .catch(console.error);
+              .catch((error) => {
+                console.error('POST error:', error);
+              });
         },
         removeFromWatchlist(context, id) {
             api

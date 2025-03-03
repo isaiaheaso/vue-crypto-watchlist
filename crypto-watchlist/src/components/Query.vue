@@ -92,6 +92,7 @@ export default {
           symbol: this.coin.symbol,
           image: this.coin.image
         };
+        console.log('Attempting to add coin:', coinData);
         this.$store.dispatch('setCoinToWatchlist', coinData);
       }
     }
