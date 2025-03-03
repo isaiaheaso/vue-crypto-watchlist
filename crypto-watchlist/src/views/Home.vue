@@ -21,6 +21,7 @@
               :image="coin.image"
               :name="coin.name"
               :symbol="coin.symbol"
+              :_id="coin._id"
           ></Coin>
         </tbody>
 

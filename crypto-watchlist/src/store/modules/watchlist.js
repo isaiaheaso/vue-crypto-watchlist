@@ -47,16 +47,18 @@ export default {
               .catch(console.error);
         },
         removeFromWatchlist(context, id) {
+            console.log('Attempting to delete coin with ID:', id);
             api
               .delete(`/watchlist/${id}`)
               .then((res) => {
-                console.log(res);
+                console.log('Delete response:', res);
                 if (res.status === 200) {
-                  // Refresh the watchlist after successful deletion
                   context.dispatch('getWatchlist');
                 }
               })
-              .catch(console.error);
+              .catch((error) => {
+                console.error('Delete failed:', error);
+              });
         }
     }
 };

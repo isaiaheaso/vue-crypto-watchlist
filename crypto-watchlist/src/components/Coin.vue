@@ -61,6 +61,7 @@ export default {
       return String(this.name).charAt(0).toUpperCase() + this.name.slice(1);
     },
     removeFromWatchlist() {
+      console.log('Deleting coin with ID:', this._id);
       this.$store.dispatch('removeFromWatchlist', this._id);
     }
   },
